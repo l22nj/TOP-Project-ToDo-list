@@ -1,50 +1,52 @@
 const MILLISECONDS_IN_DAY = 24 * 60 * 60 * 1000;
 
-class Todo {
+export class Todo {
     #id;
     #createdAt;
-    #taskName;
-    #deadline;
-    #priority;
 
     constructor(taskName, deadline, priority) {
         this.#id = crypto.randomUUID();
         this.#createdAt = new Date();
-        this.setTaskName(taskName);
-        this.setDeadline(deadline);
-        this.setPriority(priority);
+        this.taskName = taskName;
+        this.deadline = deadline;
+        this.priority = priority;
     }
 
     set taskName(taskName) {
         if (typeof(taskName) === 'string' && taskName.length < 70 && taskName.length > 1) {
-            this.#taskName = taskName;
+            this._taskName = taskName;
             return;
-        } this.#taskName = null;
+        } console.log("Error: class Todo, set taskName");
     }
-    getTaskName() {
-        return this.#taskName;
+    get taskName() {
+        return this._taskName;
     }
 
-    setDeadline(deadline) {
-        if (deadline instanceof Date && deadline > this.createdAt) {
-            this.#deadline = deadline;
+    set deadline(deadline) {
+        if (deadline instanceof Date && deadline >= this.#createdAt) {
+            this._deadline = deadline;
             return;
-        } this.#deadline = null;
+        } console.log("Error: class Todo, set deadline");
     }
-    getDeadline() {
-        return this.#deadline;
+    get deadline() {
+        return this._deadline;
     }
 
-    setPriority(priority) {
+    set priority(priority) {
         if (priority > 0 && priority <= 10) {
-            this.#priority = priority;
+            this._priority = priority;
             return;
-        } this.#priority = priority;
-    }Date.parse(
-    getPriority() {
-        return this.#priority;
+        } console.log("Error: class Todo, set priority");
     }
+    get priority() {
+        return this._priority;
+    }
+
     daysLeft() {
-        return Math.ceil((this.#deadline - this.#createdAt) / MILLISECONDS_IN_DAY);
+        return Math.ceil((this.deadline - this.#createdAt) / MILLISECONDS_IN_DAY);
+    }
+    getId() {
+        return this.#id;
     }
 }
+
