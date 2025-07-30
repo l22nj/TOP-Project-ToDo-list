@@ -1,12 +1,12 @@
-const MILLISECONDS_IN_DAY = 24 * 60 * 60 * 1000;
-
 export class Todo {
     #id;
     #createdAt;
+    #status;
 
     constructor(taskName, deadline, priority) {
         this.#id = crypto.randomUUID();
         this.#createdAt = new Date();
+        this.#status = 'undone';
         this.taskName = taskName;
         this.deadline = deadline;
         this.priority = priority;
@@ -16,7 +16,9 @@ export class Todo {
         if (typeof(taskName) === 'string' && taskName.length < 70 && taskName.length > 1) {
             this._taskName = taskName;
             return;
-        } console.log("Error: class Todo, set taskName");
+        }
+        console.log("Error: class Todo, set taskName");
+        return 'ERROR';
     }
     get taskName() {
         return this._taskName;
@@ -26,7 +28,9 @@ export class Todo {
         if (deadline instanceof Date && deadline >= this.#createdAt) {
             this._deadline = deadline;
             return;
-        } console.log("Error: class Todo, set deadline");
+        }
+        console.log("Error: class Todo, set deadline");
+        return 'ERROR';
     }
     get deadline() {
         return this._deadline;
@@ -36,17 +40,31 @@ export class Todo {
         if (priority > 0 && priority <= 10) {
             this._priority = priority;
             return;
-        } console.log("Error: class Todo, set priority");
+        }
+        console.log("Error: class Todo, set priority");
+        return 'ERROR';
     }
     get priority() {
         return this._priority;
     }
 
-    daysLeft() {
-        return Math.ceil((this.deadline - this.#createdAt) / MILLISECONDS_IN_DAY);
+    markDone() {
+        this.#status = 'done';
+    }
+    markUnDone() {
+        this.#status = 'undone';
+    }
+    getStatus() {
+        return this.#status;
+    }
+    timeLeft() { // in milliseconds
+        return this.deadline - this.#createdAt;
     }
     getId() {
         return this.#id;
+    }
+    getCreatedAt() {
+        return this.#createdAt;
     }
 }
 
