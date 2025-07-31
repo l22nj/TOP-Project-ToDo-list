@@ -3,17 +3,18 @@ export class Todo {
     #createdAt;
     #status;
 
-    constructor(taskName, deadline, priority) {
+    constructor(taskName, deadline, priority, description="") {
         this.#id = crypto.randomUUID();
         this.#createdAt = new Date();
         this.#status = 'undone';
         this.taskName = taskName;
         this.deadline = deadline;
         this.priority = priority;
+        this.description = description;
     }
 
     set taskName(taskName) {
-        if (typeof(taskName) === 'string' && taskName.length < 70 && taskName.length > 1) {
+        if (typeof(taskName) === 'string' && taskName.length <= 70 && taskName.length > 1) {
             this._taskName = taskName;
             return;
         }
@@ -47,6 +48,21 @@ export class Todo {
     get priority() {
         return this._priority;
     }
+    set description(description) {
+        if (typeof(description) === 'string' && description.length <= 300) {
+            if (!description) {
+                this._description = '-';
+                return;
+            }
+            this._description = description;
+            return;
+        }
+        console.log("Error: class Todo, set description");
+        return 'ERROR';
+    }
+    get description() {
+        return this._description;
+    }
 
     markDone() {
         this.#status = 'done';
@@ -57,11 +73,11 @@ export class Todo {
     getStatus() {
         return this.#status;
     }
-    timeLeft() { // in milliseconds
-        return this.deadline - this.#createdAt;
+    getTimeLeft() { // in milliseconds
+        return this.deadline - new Date();
     }
     getId() {
-        return this.#id;
+        return `${this.#id}`;
     }
     getCreatedAt() {
         return this.#createdAt;

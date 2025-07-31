@@ -1,73 +1,74 @@
 import {Todo} from "./ToDoModule.js";
 
-export function TodoProcessor(arr) {
-    for (let todo of arr) {
+export function TodoProcessor(todoGallery) {
+    for (let todo of todoGallery.array) {
         if (!(todo instanceof Todo)) {
-            throw new Error('array is not of todos')
+            throw new Error('todoGallery array is not of todos')
         }
     }
     function sortByCreated() {
-        arr.sort((a,b) => {
+        todoGallery.array.sort((a,b) => {
             return a.getCreatedAt - b.getCreatedAt;
         })
     }
     function sortByCreatedReverse() {
-        arr.sort((a,b) => {
+        todoGallery.array.sort((a,b) => {
             return b.getCreatedAt - a.getCreatedAt;
         })
     }
     function sortByTimeRemaining() {
-        arr.sort((a, b) => {
-            return a.timeLeft() - b.timeLeft();
+        todoGallery.array.sort((a, b) => {
+            return a.getTimeLeft() - b.getTimeLeft();
         })
     }
     function sortByTimeRemainingReverse() {
-        arr.sort((a, b) => {
-            return b.timeLeft() - a.timeLeft();
+        todoGallery.array.sort((a, b) => {
+            return b.getTimeLeft() - a.getTimeLeft();
         })
     }
     function sortByAlphabet() {
-        arr.sort((a,b) => {
+        todoGallery.array.sort((a,b) => {
             return a.taskName.localeCompare(b.taskName);
         })
     }
     function sortByAlphabetReverse() {
-        arr.sort((a,b) => {
+        todoGallery.array.sort((a,b) => {
             return b.taskName.localeCompare(a.taskName);
         })
     }
     function focusPriority() {
-        arr.sort((a, b) => {
-            return a.priority - b.priority;
-        })
-    }
-    function focusPriorityReverse() {
-        arr.sort((a, b) => {
+        todoGallery.array.sort((a, b) => {
             return b.priority - a.priority;
         })
     }
-    function addTodo(taskName, deadline, priority) {
-        const newTodo = new Todo(taskName, deadline, priority);
-        arr.push(newTodo);
+    function focusPriorityReverse() {
+        todoGallery.array.sort((a, b) => {
+            return a.priority - b.priority;
+        })
     }
-    function addReadyMadeTodo(newTodo) {
-        for (let todo of arr) {
+    function addTodoByProperties(taskName, deadline, priority) {
+        const newTodo = new Todo(taskName, deadline, priority);
+        todoGallery.array.push(newTodo);
+    }
+    function addTodo(newTodo) {
+        for (let todo of todoGallery.array) {
             if (newTodo.getId() === todo.getId()) {
                 throw new Error('todo already in array');
             }
         }
-        arr.push(newTodo);
+        todoGallery.array.push(newTodo);
     }
     function removeTodoById(id) {
-        for (let todo of arr) {
+        for (let todo of todoGallery.array) {
             if (todo.getId() === id) {
-                arr.splice(id, 1);
+                todoGallery.array.splice(id, 1);
+                return;
             }
         }
         throw new Error('todo with given id not in array');
     }
     function configureTaskNameById(id, taskName) {
-        for (let todo of arr) {
+        for (let todo of todoGallery.array) {
             if (todo.getId() === id) {
                 todo.taskName = taskName;
             }
@@ -75,14 +76,14 @@ export function TodoProcessor(arr) {
         throw new Error('todo with given id not in array');
     }
     function getTaskNameById(id) {
-        for (let todo of arr) {
+        for (let todo of todoGallery.array) {
             if (todo.getId() === id) {
                 return todo.taskName;
             }
         }
     }
     function configureDeadlineById(id, deadline) {
-        for (let todo of arr) {
+        for (let todo of todoGallery.array) {
             if (todo.getId() === id) {
                 todo.deadline = deadline;
             }
@@ -90,14 +91,14 @@ export function TodoProcessor(arr) {
         throw new Error('todo with given id not in array');
     }
     function getDeadlineById(id) {
-        for (let todo of arr) {
+        for (let todo of todoGallery.array) {
             if (todo.getId() === id) {
                 return todo.deadline;
             }
         }
     }
     function configurePriorityById(id, priority) {
-        for (let todo of arr) {
+        for (let todo of todoGallery.array) {
             if (todo.getId() === id) {
                 todo.priority = priority;
             }
@@ -105,18 +106,33 @@ export function TodoProcessor(arr) {
         throw new Error('todo with given id not in array');
     }
     function getPriorityById(id) {
-        for (let todo of arr) {
+        for (let todo of todoGallery.array) {
             if (todo.getId() === id) {
                 return todo.priority;
             }
         }
     }
+    function toggleStatusById(id) {
+        for (let todo of todoGallery.array) {
+            if (todo.getId() === id) {
+                if (todo.getStatus() === 'done') {
+                    todo.markUnDone();
+                    return;
+                } else if (todo.getStatus() === 'undone') {
+                    todo.markDone();
+                    return;
+                } else {
+                    throw new Error("todo status logged incorrectly in ToDoModule");
+                }
+            }
+        }
+    }
     function isTodoDone(id) {
-        for (let todo of arr) {
+        for (let todo of todoGallery.array) {
             if (todo.getId() === id) {
                 if (todo.getStatus() === 'done') {
                     return true;
-                } if (todo.getStatus() === 'undone') {
+                } else if (todo.getStatus() === 'undone') {
                     return false;
                 } else {
                     throw new Error("todo status logged incorrectly in ToDoModule");
@@ -126,8 +142,8 @@ export function TodoProcessor(arr) {
         throw new Error('todo with given id not in array');
     }
     return { sortByCreated, sortByCreatedReverse, sortByTimeRemaining, sortByTimeRemainingReverse, sortByAlphabet,
-        sortByAlphabetReverse, focusPriority, focusPriorityReverse, addTodo, addReadyMadeTodo, removeTodoById,
+        sortByAlphabetReverse, focusPriority, focusPriorityReverse, addTodoByProperties, addTodo, removeTodoById,
         configureTaskNameById, getTaskNameById, configureDeadlineById, getDeadlineById, configurePriorityById,
-        getPriorityById, isTodoDone
+        getPriorityById, toggleStatusById, isTodoDone
     };
 }
