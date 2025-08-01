@@ -17,6 +17,10 @@ class TodoGallery {
         this.array.length = 0;
         this.update();
     }
+    initialize() {
+        this.storage.getLocalStorage();
+        this.display.update();
+    }
     addByProperties(taskName, deadline, priority, description="") {
         this.processor.addTodoByProperties(taskName, deadline, priority, description);
         this.update();

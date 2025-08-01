@@ -9,10 +9,6 @@ import "./styles.css"
 // todoGallery.processor.addTodo(todo)
 // todoGallery.processor.addTodo(todo2)
 
-todoGallery.storage.getLocalStorage()
-
 window.todoGallery = todoGallery // for using console to call todoGallery methods in browser
+todoGallery.initialize()
 
-console.log(todoGallery.array)
-
-todoGallery.display.update()
