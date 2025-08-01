@@ -33,11 +33,28 @@ footer {
 }
 
 #form-add-todo {
-    display: flex;
-    flex-direction: column;
+    /*border: 1px solid red;*/
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    gap: 0;
+    display: grid;
+    grid: 1.2rem 1.2rem 1.2rem auto 1.2rem / auto;
+    grid-auto-flow: column;
+    justify-content: stretch;
+    justify-items: stretch;
+    align-content: stretch;
+    align-items: stretch;
+}
+
+#form-add-todo > * {
+    /*border: 1px solid red;*/
+    padding: 0;
+    margin: 0;
 }
 
 #form-add-todo > textarea {
     box-sizing: border-box;
     min-width: 100%;
+    min-height: 100%;
 }
