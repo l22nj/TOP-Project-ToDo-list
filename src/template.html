@@ -8,7 +8,15 @@
 
 <div class="grid-container">
     <header>To-Do List</header>
-    <div class="sidebar"></div>
+    <div class="sidebar">
+        <form id="form-add-todo">
+            <input type="text" id="add-task-name" placeholder="Task name (ex: 'Study')" value="" required>
+            <input type="date" id="add-deadline" value="" required>
+            <input type="number" id="add-priority" placeholder="Priority 1-10 (ex: 5)" min="1" max="10" value="" required>
+            <textarea id="add-description" placeholder="Description..."></textarea>
+            <button id="add-task">Add a new task!</button>
+        </form>
+    </div>
     <div class="content"></div>
     <footer>Copyright 2025 l22nj</footer>
 </div>

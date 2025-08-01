@@ -1,12 +1,9 @@
 export class Todo {
-    #id;
-    #createdAt;
-    #status;
 
     constructor(taskName, deadline, priority, description="") {
-        this.#id = crypto.randomUUID();
-        this.#createdAt = new Date();
-        this.#status = 'undone';
+        this.id = crypto.randomUUID();
+        this.createdAt = new Date();
+        this.status = 'undone';
         this.taskName = taskName;
         this.deadline = deadline;
         this.priority = priority;
@@ -26,7 +23,7 @@ export class Todo {
     }
 
     set deadline(deadline) {
-        if (deadline instanceof Date && deadline >= this.#createdAt) {
+        if (deadline instanceof Date && deadline >= this.createdAt) {
             this._deadline = deadline;
             return;
         }
@@ -65,22 +62,28 @@ export class Todo {
     }
 
     markDone() {
-        this.#status = 'done';
+        this.status = 'done';
     }
     markUnDone() {
-        this.#status = 'undone';
+        this.status = 'undone';
     }
     getStatus() {
-        return this.#status;
+        return this.status;
     }
     getTimeLeft() { // in milliseconds
         return this.deadline - new Date();
     }
     getId() {
-        return `${this.#id}`;
+        return `${this.id}`;
+    }
+    setId(id) {
+        this.id = id;
     }
     getCreatedAt() {
-        return this.#createdAt;
+        return this.createdAt;
+    }
+    setCreatedAt(date) {
+        this.createdAt = date;
     }
 }
 

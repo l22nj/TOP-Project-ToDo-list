@@ -46,8 +46,8 @@ export function TodoProcessor(todoGallery) {
             return a.priority - b.priority;
         })
     }
-    function addTodoByProperties(taskName, deadline, priority) {
-        const newTodo = new Todo(taskName, deadline, priority);
+    function addTodoByProperties(taskName, deadline, priority, description="") {
+        const newTodo = new Todo(taskName, deadline, priority, description);
         todoGallery.array.push(newTodo);
     }
     function addTodo(newTodo) {

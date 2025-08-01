@@ -1,7 +1,3 @@
-import {Todo} from "./ToDoModule";
-
-const MILLISECONDS_IN_DAY = 1000*60*60*24;
-
 export function TodoDisplayer(todoGallery) {
     const todoContainer = document.querySelector(".grid-container > .content");
 
@@ -47,8 +43,7 @@ export function TodoDisplayer(todoGallery) {
         deleteButton.classList.add("delete");
         deleteButton.innerText = "Delete";
         deleteButton.addEventListener("click", () => {
-            todoGallery.processor.removeTodoById(todo.getId());
-            todoGallery.display.update();
+            todoGallery.removeById(todo.getId())
         })
         buttons.appendChild(deleteButton);
 
@@ -64,16 +59,14 @@ export function TodoDisplayer(todoGallery) {
                 Status:
                 ${todo.getStatus()}
                 `);
-            // Days left:
-            //     ${Math.ceil(todo.getTimeLeft() / MILLISECONDS_IN_DAY)}
         })
         buttons.appendChild(showButton);
 
         const doneButton = document.createElement("button");
         doneButton.classList.add("marker");
-        doneButton.innerText = "Mark as done";
+        doneButton.innerText = "Toggle status";
         doneButton.addEventListener("click", () => {
-            todoGallery.processor.toggleStatusById(todo.getId());
+            todoGallery.toggleById(todo.getId());
         })
         buttons.appendChild(doneButton);
     }

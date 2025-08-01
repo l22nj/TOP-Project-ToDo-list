@@ -1,6 +1,6 @@
 .grid-container {
     display: grid;
-    grid: 1fr 5fr 1fr / 1fr 3fr;
+    grid: 1fr 5fr 1fr / 1fr 4fr;
     grid-template-areas:
             "header header"
             "sidebar content"
@@ -30,4 +30,14 @@ footer {
 
 .todo > * {
     margin: 0 20px;
+}
+
+#form-add-todo {
+    display: flex;
+    flex-direction: column;
+}
+
+#form-add-todo > textarea {
+    box-sizing: border-box;
+    min-width: 100%;
 }
